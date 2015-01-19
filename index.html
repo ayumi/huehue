@@ -6,11 +6,44 @@
   <link rel="stylesheet" type="text/css" href="hue.css" media="all">
 </head>
 <body>
-  <div id="lights"></div>
+  <div id="app"></div>
+
+  <!-- Templates -->
+  <script id='_app' type='text/html'>
+    <div class='lights'>
+    {{#lights}}
+      {{> _light}}
+    {{/lights}}
+    </div>
+  </script>
+
+  <!-- TODO: Don't hardcode light state controls -->
+  <script id='_light' type='text/html'>
+    <div class='light'>
+      <p>#{{id}}</p>
+      <p>{{name}}!</p>
+      <p>{{type}}!</p>
+      <div class='state'>
+        <div>
+          <input id='light-{{id}}-state-hue' class='light-state-slider hue' type='range' min='0' max='65535' value='{{state.hue}}'>
+        </div>
+        <div>
+          <input id='light-{{id}}-state-sat' class='light-state-slider sat' type='range' min='0' max='255' value='{{state.sat}}'>
+        </div>
+        <div>
+          <input id='light-{{id}}-state-bri' class='light-state-slider bri' type='range' min='0' max='255' value='{{state.bri}}'>
+        </div>
+        <div>
+          <input id='light-{{id}}-state-ct' class='light-state-slider ct' type='range' min='30' max='450' value='{{state.ct}}'>
+        </div>
+      </div>
+    </div>
+  </script>
 
   <!-- JS -->
   <script src="js/lib/docready.js"></script>
   <script src="js/lib/underscore-min.js"></script>
+  <script src="js/lib/ractive.min.js"></script>
   <script src="js/hue-api.js"></script>
   <script src="js/hue-light.js"></script>
   <script src="js/hue.js"></script>
