@@ -60,8 +60,27 @@ HueLight.prototype.stateChanged = function(newState) {
       return !( _.isEqual( oldState[key], newValue ) );
     });
   if ( _.size(changes) > 0 ){
-    this.bufferedPutState(changes);
+    var normChanges = this.getNormState(changes);
+    this.bufferedPutState(normChanges);
   }
+};
+
+// Sometimes it's necessary to add attributes onto state changes, e.g. for
+// effect you need effectspread and transtiiontime.
+HueLight.prototype.getNormState = function(state) {
+  var attrGroups = [ ['bri', 'sat', 'effect', 'effectspread', 'transitiontime'] ];
+  var stateAttrs = _.keys(state);
+  var _this = this;
+  _.each( attrGroups, function(attrGroup) {
+    var attrDiffGroupState = _.difference( attrGroup, stateAttrs );
+    // grouped attrs present
+    if ( _.size(attrDiffGroupState) < _.size(attrGroup) ) {
+      _.each( attrDiffGroupState, function(missingAttr) {
+        state[missingAttr] = _this.state[missingAttr];
+      });
+    }
+  });
+  return state;
 };
 
 HueLight.prototype.on = function() {
