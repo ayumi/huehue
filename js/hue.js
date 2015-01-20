@@ -2,6 +2,7 @@ Hue = {
   __ : {
     api : null,
     rac : null,
+    picker : null,
     lights : {}
   },
 
@@ -16,15 +17,46 @@ Hue = {
 
       Hue.__.api = new HueApi( Hue.config.rootPath );
 
+      // ColorPicker
+      Hue.__.picker = Ractive.extend({
+        template: '#_picker',
+
+        onrender: function() {
+          var _this = this;
+          var container = this.find( '.picker' );
+          this.cp = ColorPicker( container, function(hex, hsv, rgb){
+            if ( !( _.isEqual( _this.data.pickerHsv, hsv ) ) ) {
+              _this.fire( 'hsvChanged', _this.data['light-id'], hsv );
+              _this.data.pickerHsv = hsv;
+            }
+          });
+
+          // Init CP's HSV
+          this.cp.setHsv( _this.data.pickerHsv );
+        },
+
+        onchange: function(newData) {
+          var oldCpHsv = {
+            h: this.cp.h,
+            s: this.cp.s,
+            v: this.cp.v
+          };
+          if ( !( _.isEqual( oldCpHsv, newData.pickerHsv ) ) ) {
+            this.cp.setHsv(newData.pickerHsv);
+          }
+        }
+      });
+
       Hue.__.rac = new Ractive({
         el: 'app',
         template: '#_app',
         data: {
           lights: []
-        }
+        },
+        components: { picker: Hue.__.picker }
       });
 
-      // Ractive data bindings
+      // Observers
       Hue.__.rac.observe('lights.*.state.*', function(newValue, oldValue, keypath) {
         // keypath: "lights.0.state.bri"
         var keypathParts = keypath.split('.');
@@ -37,11 +69,20 @@ Hue = {
         Hue.__.lights[lightId].stateChanged(newState);
       });
 
+      Hue.__.rac.on('*.hsvChanged', function(lightId, hsv) {
+        Hue.__.lights[lightId].setHsv(hsv);
+      });
+
       // Poll for changess
       setInterval( Hue.fn.refreshLights, Hue.config.pollInterval ),
 
       // This will update the Lights object
       Hue.fn.refreshLights();
+
+      // Disable drag events (colorpicker)
+      document.addEventListener("dragstart", function( event ) {
+        return false;
+      }, false);
     },
 
     // Reload lights from API
@@ -52,7 +93,12 @@ Hue = {
             if ( Hue.__.lights[id] ) {
               Hue.__.lights[id].sync(apiLight);
             } else {
-              Hue.__.lights[id] = new HueLight( Hue.__.api, id, apiLight );
+              Hue.__.lights[id] = new HueLight({
+                api: Hue.__.api,
+                id:  id,
+                obj: apiLight,
+                onSync: Hue.fn.renderLights
+              });
             }
           });
           Hue.fn.renderLights();

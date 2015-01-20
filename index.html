@@ -5,8 +5,9 @@
   <title>HueHue</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" type="text/css" href="normalize.css" media="all">
-  <link rel="stylesheet" type="text/css" href="hue.css" media="all">
+  <link rel="stylesheet" type="text/css" href="css/normalize.css" media="all">
+  <link rel="stylesheet" type="text/css" href="css/colorpicker.css" media="all">
+  <link rel="stylesheet" type="text/css" href="css/hue.css" media="all">
 </head>
 <body>
   <div id="app"></div>
@@ -20,6 +21,10 @@
     </div>
   </script>
 
+  <script id='_picker', type='text/html'>
+    <div class='picker cp state-attr-control'></div>
+  </script>
+
   <!-- TODO: Don't hardcode light state controls -->
   <script id='_light' type='text/html'>
     <div class='light {{ state.on ? 'on' : 'off' }}'>
@@ -30,33 +35,22 @@
         <span class='light-name'>{{name}}</span>
       </label>
       <div class='state'>
+        <picker light-id='{{id}}' pickerHsv='{{pickerHsv}}'></picker>
         <div class='basic'>
-          <div class='state-attr-control'>
+          <div class='state-attr-control hue'>
             <label class='state-attr-label' for='light-{{id}}-state-hue'>H</label>
             <input id='light-{{id}}-state-hue' class='light-state-slider hue' type='range' min='0' max='65535' value='{{state.hue}}'>
           </div>
-          <div class='state-attr-control'>
+          <div class='state-attr-control sat'>
             <label class='state-attr-label' for='light-{{id}}-state-sat'>S</label>
             <input id='light-{{id}}-state-sat' class='light-state-slider sat' type='range' min='0' max='255' value='{{state.sat}}'>
           </div>
-          <div class='state-attr-control'>
+          <div class='state-attr-control bri'>
             <label class='state-attr-label' for='light-{{id}}-state-bri'>L</label>
             <input id='light-{{id}}-state-bri' class='light-state-slider bri' type='range' min='0' max='255' value='{{state.bri}}'>
           </div>
-          <div class='state-attr-control'>
-            <label class='state-attr-label' for='light-{{id}}-state-ct'>T</label>
-            <input id='light-{{id}}-state-ct' class='light-state-slider ct' type='range' min='30' max='450' value='{{state.ct}}'>
-          </div>
         </div>
         <div class='effect'>
-          <div class='state-attr-control'>
-            <label class='state-attr-label' for='light-{{id}}-state-effectspread'>x</label>
-            <input id='light-{{id}}-state-effectspread' class='light-state-slider effect-spread' type='range' min='0' max='15.0' step='0.01' value='{{state.effectspread}}'>
-          </div>
-          <div class='state-attr-control'>
-            <label class='state-attr-label' for='light-{{id}}-state-transitiontime'>t</label>
-            <input id='light-{{id}}-state-transitiontime' class='light-state-slider transition-time' type='range' min='0' max='200' step='1' value='{{state.transitiontime}}'>
-          </div>
           <div class='state-attr-control'>
             <label class='state-attr-label'>Δ</label>
             <label class='light-state-radio effect'>
@@ -72,6 +66,18 @@
               <span class='light-state-effect-label'>HSV</span>
             </label>
           </div>
+          <div class='state-attr-control'>
+            <label class='state-attr-label' for='light-{{id}}-state-effectspread'>x</label>
+            <input id='light-{{id}}-state-effectspread' class='light-state-slider effect-spread' type='range' min='0' max='15.0' step='0.01' value='{{state.effectspread}}'>
+          </div>
+          <div class='state-attr-control'>
+            <label class='state-attr-label' for='light-{{id}}-state-transitiontime'>t</label>
+            <input id='light-{{id}}-state-transitiontime' class='light-state-slider transition-time' type='range' min='0' max='200' step='1' value='{{state.transitiontime}}'>
+          </div>
+        </div>
+        <div class='state-attr-control'>
+          <label class='state-attr-label' for='light-{{id}}-state-ct'>T</label>
+          <input id='light-{{id}}-state-ct' class='light-state-slider ct' type='range' min='30' max='450' value='{{state.ct}}'>
         </div>
       </div>
     </div>
@@ -81,6 +87,7 @@
   <script src="js/lib/docready.js"></script>
   <script src="js/lib/underscore-min.js"></script>
   <script src="js/lib/ractive.min.js"></script>
+  <script src="js/lib/colorpicker.min.js"></script>
   <script src="js/hue-api.js"></script>
   <script src="js/hue-light.js"></script>
   <script src="js/hue.js"></script>

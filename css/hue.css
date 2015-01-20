@@ -51,10 +51,28 @@ body {
   border-bottom: 1px solid;
 }
 
+.light .state-attr-control input[type='radio'] {
+  vertical-align: bottom;
+}
+
+/* Don't need these since we have ColorPicker */
+.light .state .state-attr-control.hue,
+.light .state .state-attr-control.sat,
+.light .state .state-attr-control.bri {
+  display: none;
+}
+.light .state-attr-control.cp {
+  padding: 10px 10px 5px;
+}
+
 .light .state-attr-label {
   display: inline-block;
   text-align: center;
   width: 33px;
+}
+
+.light .light-state-radio {
+  margin-right: 2px;
 }
 
 .light .light-state-slider {
@@ -85,8 +103,8 @@ body {
 }
 
 .light.on .light-state-on-off-indicator {
-  background: #57C21F;
-  border-color: #86D581;
+  background: #A7E61A;
+  border-color: #55B10B;
 }
 
 .light.on .light-header .header-seperator {

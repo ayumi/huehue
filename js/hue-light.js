@@ -1,7 +1,13 @@
-var HueLight = function(api, id, obj) {
-  this.api = api;
-  this.id = id;
-  this.sync(obj);
+// args
+//   api: HueApi instance
+//   id:  API light ID
+//   obj: API response object
+//   onSync: Callback after data syncs from API (e.g. render in view)
+var HueLight = function(args) {
+  this.api = args.api;
+  this.id = args.id;
+  this.onSync = args.onSync;
+  this.sync( args.obj );
 
   // Setup buffered putState
   this.putStateBuffer = {};
@@ -15,10 +21,35 @@ var HueLight = function(api, id, obj) {
 HueLight.prototype.sync = function(obj) {
   this.modelid   = obj.modelid;
   this.name      = obj.name;
-  this.swversion = obj.swversion;
-  this.state =     obj.state;
   this.type      = obj.type;
+  this.swversion = obj.swversion;
+  this.state     = obj.state;
+  this.pickerHsv = this.getHsv();
   this.putStateBuffer = {};
+
+  if ( typeof this.onSync === 'function' ) {
+    this.onSync.call();
+  }
+};
+
+// Hue API has hue/sat/bri as 0-65535, 0-255, 0-255
+// HSV for ColorPicker is 0-360, 0-1, 0-1
+HueLight.prototype.getHsv = function() {
+  return {
+    h: this.state.hue / (65535 / 360),
+    s: this.state.sat / 255,
+    v: this.state.bri / 255,
+  };
+};
+
+// From HSV, set the state.hue, .sat, .bri
+HueLight.prototype.setHsv = function(hsv) {
+  var newState = {
+    hue: parseInt( hsv.h * (65535 / 360) ),
+    sat: parseInt( hsv.s * 255 ),
+    bri: parseInt( hsv.v * 255 )
+  };
+  this.stateChanged(newState);
 };
 
 HueLight.prototype.basePath = function() {

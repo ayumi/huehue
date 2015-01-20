@@ -1,10 +1,6 @@
 # HueHue
 
-JS Frontend for the Philips Hue API.
-
-Uses Ractive and underscore.js.
-
-*Work in progress*
+Minimal JS Frontend for the Philips Hue API.
 
 # Usage
 
