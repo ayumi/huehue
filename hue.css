@@ -2,4 +2,143 @@ body {
   background: #111;
   color: #eee;
   font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12pt;
+}
+
+
+/* Light */
+
+.light {
+  border: 1px solid #222;
+  display: inline-block;
+  width: 300px;
+}
+
+.light-header {
+  border-bottom: 1px solid;
+  cursor: pointer;
+  display: block;
+  letter-spacing: 1px;
+  padding: 10px;
+}
+
+.light-state-check {
+  display: none;
+}
+
+.light-state-on-off-indicator {
+  border: 1px solid;
+  display: inline-block;
+  height: 9px;
+  margin: 0 9px 0 4px;
+  width: 9px;
+}
+
+.light-header .header-seperator {
+  border-left: 1px solid;
+  display: inline-block;
+  height: 40px;
+  margin: -15px 7px -15px 0;
+}
+
+.light .state {
+  border-top: 1px solid;
+  font-size: 11pt;
+}
+
+.light .state-attr-control {
+  padding: 6px 3px;
+  border-bottom: 1px solid;
+}
+
+.light .state-attr-label {
+  display: inline-block;
+  text-align: center;
+  width: 33px;
+}
+
+.light .light-state-slider {
+  cursor: pointer;
+  width: 250px;
+  vertical-align: bottom;
+}
+
+.light .light-state-effect-label {
+  font-size: 10pt;
+}
+
+
+/* Light ON */
+
+.light.on {
+  background: #1C3B29;
+}
+
+.light.on .light-header {
+  background: #13512A;
+  border-color: #003C18;
+  color: #C0FEC3;
+}
+
+.light.on .light-header:hover {
+  background: #10602B;
+}
+
+.light.on .light-state-on-off-indicator {
+  background: #57C21F;
+  border-color: #86D581;
+}
+
+.light.on .light-header .header-seperator {
+  border-color: #003C18;
+}
+
+.light.on .state {
+  border-top-color: #16291E;
+}
+
+.light.on .state-attr-control {
+  border-bottom-color: #2B4D30;
+}
+
+.light.on .state-attr-label {
+  color: #40BC83;
+}
+
+
+/* Light OFF */
+
+.light.off {
+  background: #1A231D;
+}
+
+.light.off .light-header {
+  background: #202A23;
+  border-color: #102112;
+  color: #567558;
+}
+
+.light.off .light-header:hover {
+  background: #233626;
+}
+
+.light.off .light-state-on-off-indicator {
+  background: #1D2A21;
+  border-color: #384E3E;
+}
+
+.light.off .light-header .header-seperator {
+  border-color: #102112;
+}
+
+.light.off .state {
+  border-top-color: #141E18;
+}
+
+.light.off .state-attr-control {
+  border-bottom-color: #1D291D;
+}
+
+.light.off .state-attr-label {
+  color: #2F4133;
 }

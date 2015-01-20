@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>HueHue</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="normalize.css" media="all">
   <link rel="stylesheet" type="text/css" href="hue.css" media="all">
 </head>
 <body>
@@ -19,46 +22,56 @@
 
   <!-- TODO: Don't hardcode light state controls -->
   <script id='_light' type='text/html'>
-    <div class='light'>
-      <p>#{{id}}</p>
-      <p>{{name}}!</p>
-      <p>{{type}}!</p>
+    <div class='light {{ state.on ? 'on' : 'off' }}'>
+      <label class='light-header'>
+        <input class='light-state-check on-off' type='checkbox' checked='{{state.on}}'>
+        <span class='light-state-on-off-indicator'></span>
+        <span class='header-seperator'></span>
+        <span class='light-name'>{{name}}</span>
+      </label>
       <div class='state'>
-        <label>
-          <input class='light-state-check on-off' type='checkbox' checked='{{state.on}}'>
-          {{ state.on ? 'on' : 'off' }}
-        </label>
-        <div>
-          <input class='light-state-slider hue' type='range' min='0' max='65535' value='{{state.hue}}'>
+        <div class='basic'>
+          <div class='state-attr-control'>
+            <label class='state-attr-label' for='light-{{id}}-state-hue'>H</label>
+            <input id='light-{{id}}-state-hue' class='light-state-slider hue' type='range' min='0' max='65535' value='{{state.hue}}'>
+          </div>
+          <div class='state-attr-control'>
+            <label class='state-attr-label' for='light-{{id}}-state-sat'>S</label>
+            <input id='light-{{id}}-state-sat' class='light-state-slider sat' type='range' min='0' max='255' value='{{state.sat}}'>
+          </div>
+          <div class='state-attr-control'>
+            <label class='state-attr-label' for='light-{{id}}-state-bri'>L</label>
+            <input id='light-{{id}}-state-bri' class='light-state-slider bri' type='range' min='0' max='255' value='{{state.bri}}'>
+          </div>
+          <div class='state-attr-control'>
+            <label class='state-attr-label' for='light-{{id}}-state-ct'>T</label>
+            <input id='light-{{id}}-state-ct' class='light-state-slider ct' type='range' min='30' max='450' value='{{state.ct}}'>
+          </div>
         </div>
-        <div>
-          <input class='light-state-slider sat' type='range' min='0' max='255' value='{{state.sat}}'>
-        </div>
-        <div>
-          <input class='light-state-slider bri' type='range' min='0' max='255' value='{{state.bri}}'>
-        </div>
-        <div>
-          <input class='light-state-slider ct' type='range' min='30' max='450' value='{{state.ct}}'>
-        </div>
-        <div>
-          <label class='light-state-radio effect'>
-            <input type='radio' name='{{state.effect}}' value='none' checked>
-            [x]
-          </label>
-          <label class='light-state-radio effect'>
-            <input type='radio' name='{{state.effect}}' value='hclloop'>
-            HCL
-          </label>
-          <label class='light-state-radio effect'>
-            <input type='radio' name='{{state.effect}}' value='hsvloop'>
-            HSV
-          </label>
-        </div>
-        <div>
-          <input class='light-state-slider effect-spread' type='range' min='0' max='15.0' step='0.01' value='{{state.effectspread}}'>
-        </div>
-        <div>
-          <input class='light-state-slider transition-time' type='range' min='0.0' max='200' step='1' value='{{state.transitiontime}}'>
+        <div class='effect'>
+          <div class='state-attr-control'>
+            <label class='state-attr-label' for='light-{{id}}-state-effectspread'>x</label>
+            <input id='light-{{id}}-state-effectspread' class='light-state-slider effect-spread' type='range' min='0' max='15.0' step='0.01' value='{{state.effectspread}}'>
+          </div>
+          <div class='state-attr-control'>
+            <label class='state-attr-label' for='light-{{id}}-state-transitiontime'>t</label>
+            <input id='light-{{id}}-state-transitiontime' class='light-state-slider transition-time' type='range' min='0' max='200' step='1' value='{{state.transitiontime}}'>
+          </div>
+          <div class='state-attr-control'>
+            <label class='state-attr-label'>Δ</label>
+            <label class='light-state-radio effect'>
+              <input type='radio' name='{{state.effect}}' value='none' checked>
+              <span class='light-state-effect-label'>none</span>
+            </label>
+            <label class='light-state-radio effect'>
+              <input type='radio' name='{{state.effect}}' value='hclloop'>
+              <span class='light-state-effect-label'>HCL</span>
+            </label>
+            <label class='light-state-radio effect'>
+              <input type='radio' name='{{state.effect}}' value='hsvloop'>
+              <span class='light-state-effect-label'>HSV</span>
+            </label>
+          </div>
         </div>
       </div>
     </div>
