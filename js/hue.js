@@ -7,7 +7,7 @@ Hue = {
   },
 
   config : {
-    rootPath: "http://cute.local:80/api/_",
+    rootPath: "http://" + window.location.hostname + ":80/api/_",
     pollInterval: 5000
   },
 
