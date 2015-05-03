@@ -99,7 +99,7 @@ HueLight.prototype.stateChanged = function(newState) {
 // Sometimes it's necessary to add attributes onto state changes, e.g. for
 // effect you need effectspread and transtiiontime.
 HueLight.prototype.getNormState = function(state) {
-  var attrGroups = [ ['bri', 'sat', 'effect', 'effectspread', 'transitiontime'] ];
+  var attrGroups = [ ['bri', 'effect', 'effectspread', 'transitiontime'] ];
   var stateAttrs = _.keys(state);
   var _this = this;
   _.each( attrGroups, function(attrGroup) {
@@ -131,7 +131,7 @@ HueLight.prototype.setBri = function(bri) {
   this.setBrightness(bri);
 };
 
-HueLight.prototype.setCromaticity = function(ct) {
+HueLight.prototype.setChromaticity = function(ct) {
   this.putState({ct: ct});
 };
 
