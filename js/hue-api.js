@@ -1,3 +1,5 @@
+// Api interface -- lower level stuff.
+
 var HueApi = function(apiRootPath) {
   this.rootPath = apiRootPath;
 };

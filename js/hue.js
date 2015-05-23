@@ -1,3 +1,8 @@
+// Entrypoint / Main controller for the app.
+// It creates a HueApi object and uses it to load all the HueLights.
+// HueLights are rendered via Ractive.js, which syncs data between
+// Api and UI.
+
 Hue = {
   __ : {
     api : null,
@@ -7,15 +12,30 @@ Hue = {
   },
 
   config : {
-    rootPath: "http://" + window.location.hostname + ":80/api/_",
+    defaultApiRoot:
+      ( window.location.protocol + "//" + window.location.hostname + ":80/api/anykey" ),
     pollInterval: 5000
   },
 
   fn : {
+    getApiRoot: function(){
+      var param = Util.fn.queryParam("api_root");
+      if ( typeof param === "string" ) {
+        if ( param.indexOf("//") === -1 ) {
+          param = "//" + param;
+        }
+        console.log( "getApiRoot: Using query param endpoint: " + param );
+        return param;
+      }
+
+      console.log( "getApiRoot: Using default endpoint: " + Hue.config.defaultRootPath + ". Set ?api_root=< Endpoint URL > to customize." );
+      return Hue.config.defaultRootPath;
+    },
+
     init: function(){
       // TODO: Load configs from localStorage
 
-      Hue.__.api = new HueApi( Hue.config.rootPath );
+      Hue.__.api = new HueApi( Hue.fn.getApiRoot() );
 
       // ColorPicker
       Hue.__.picker = Ractive.extend({

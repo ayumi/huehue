@@ -1,3 +1,6 @@
+// The basic operable unit.
+// Usually you'll do stuff to lights using this object.
+
 // args
 //   api: HueApi instance
 //   id:  API light ID

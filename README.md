@@ -4,11 +4,15 @@ Minimal JS Frontend for the Philips Hue API.
 
 # Usage
 
-Edit `Hue.config.rootPath` to the endpoint of your Hue API.
+Run a static HTTP server and open index.html in your browser.
 
-You can run HueHue locally via a static webserver of your choice.
+Default API endpoint is `:80/api/anykey` on whatever host is serving the file. This is configured in `hue.js`.
 
-You can also use the Dockerfile to build a small nginx image (~100MiB).
+Change by setting the query param `api_root`, e.g. `?api_root=//some-other-host.local/api/key`.
+
+# Deployment
+
+The included Dockerfile builds an nginx image (~100MiB) which serves this directory.
 
 # License
 
