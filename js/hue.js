@@ -45,14 +45,14 @@ Hue = {
           var _this = this;
           var container = this.find( '.picker' );
           this.cp = ColorPicker( container, function(hex, hsv, rgb){
-            if ( !( _.isEqual( _this.data.pickerHsv, hsv ) ) ) {
-              _this.fire( 'hsvChanged', _this.data['light-id'], hsv );
-              _this.data.pickerHsv = hsv;
+            if ( !( _.isEqual( _this.get("pickerHsv"), hsv ) ) ) {
+              _this.fire( 'hsvChanged', _this.get("light-id"), hsv );
+              _this.set("pickerHsv", hsv);
             }
           });
 
           // Init CP's HSV
-          this.cp.setHsv( _this.data.pickerHsv );
+          this.cp.setHsv( _this.get("pickerHsv") );
         },
 
         onchange: function(newData) {
