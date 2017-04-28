@@ -28,8 +28,8 @@ Hue = {
         return param;
       }
 
-      console.log( "getApiRoot: Using default endpoint: " + Hue.config.defaultRootPath + ". Set ?api_root=< Endpoint URL > to customize." );
-      return Hue.config.defaultRootPath;
+      console.log( "getApiRoot: Using default endpoint: " + Hue.config.defaultApiRoot + ". Set ?api_root=< Endpoint URL > to customize." );
+      return Hue.config.defaultApiRoot;
     },
 
     init: function(){
