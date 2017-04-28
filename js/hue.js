@@ -57,12 +57,17 @@ Hue = {
 
         onchange: function(newData) {
           var oldCpHsv = {
-            h: this.cp.h,
-            s: this.cp.s,
-            v: this.cp.v
+            h: this.cp.h || 0,
+            s: this.cp.s || 0,
+            v: this.cp.v || 0
           };
-          if ( !( _.isEqual( oldCpHsv, newData.pickerHsv ) ) ) {
-            this.cp.setHsv(newData.pickerHsv);
+          var pickerHsv = {
+            h: newData.pickerHsv.h || 0,
+            s: newData.pickerHsv.s || 0,
+            v: newData.pickerHsv.v || 0
+          }
+          if ( !( _.isEqual( oldCpHsv, pickerHsv ) ) ) {
+            this.cp.setHsv(pickerHsv);
           }
         }
       });
